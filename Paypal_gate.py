@@ -53,7 +53,7 @@ class AssassinDonationAPI:
             response = self.session.get('https://soule-foundation.org/', params=params, headers=headers)
             html_text = response.text
 
-            # Extract form IDs using regex only - no BeautifulSoup needed
+            # Extract form IDs
             id_match = re.search(r'"donationFormId":\s*(\d+)', html_text)
             form_id = id_match.group(1) if id_match else "264641"
 
@@ -497,13 +497,6 @@ def home():
     <p><em>Real payment processing - Use test cards only</em></p>
     '''
 
+# 🔥 CRITICAL: This must be at the end of file
 if __name__ == '__main__':
-    print("🔥 Assassin URL Donation API Starting...")
-    print("🎯 URL Endpoints:")
-    print("   http://localhost:5000/cc=card|mm|yy|cvv")
-    print("   http://localhost:5000/cc=card|mm|yy|cvv/amount/5")
-    print("   http://localhost:5000/Assassin/donate (POST)")
-    print("   http://localhost:5000/Assassin")
-    print("   http://localhost:5000/Assassin/health")
-    print("\n⚡ Server running on http://localhost:5000")
     app.run(host='0.0.0.0', port=5000, debug=True)
