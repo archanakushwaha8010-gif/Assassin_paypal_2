@@ -44,13 +44,19 @@ class AssassinDonationAPI:
                 'user-agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36',
             }
 
+            # Use proxy
+            proxy = {
+                'http': 'http://bcvyjybs:qpc17kptincm@142.111.48.253:7030',
+                'https': 'http://bcvyjybs:qpc17kptincm@142.111.48.253:7030'
+            }
+
             params = {
                 'givewp-route': 'donation-form-view',
                 'form-id': '264641',
                 'locale': 'en_US',
             }
 
-            response = self.session.get('https://soule-foundation.org/', params=params, headers=headers)
+            response = self.session.get('https://soule-foundation.org/', params=params, headers=headers, proxies=proxy)
             html_text = response.text
 
             # Extract form IDs
@@ -128,7 +134,7 @@ class AssassinDonationAPI:
                 'vault': 'false',
             }
 
-            response = self.session.get('https://www.paypal.com/smart/buttons', params=paypal_params, headers=headers)
+            response = self.session.get('https://www.paypal.com/smart/buttons', params=paypal_params, headers=headers, proxies=proxy)
             html_text = response.text
 
             match = re.search(r'"facilitatorAccessToken"\s*:\s*"([^"]+)"', html_text)
@@ -164,6 +170,7 @@ class AssassinDonationAPI:
                 params=params,
                 headers=headers,
                 data=data,
+                proxies=proxy
             )
 
             order_data = response.json()
@@ -190,6 +197,7 @@ class AssassinDonationAPI:
                 f'https://www.paypal.com/v2/checkout/orders/{order_id}/confirm-payment-source',
                 headers=headers,
                 json=json_data,
+                proxies=proxy
             )
 
             # STEP 5: Finalize donation
@@ -225,7 +233,8 @@ class AssassinDonationAPI:
                 'https://soule-foundation.org/', 
                 params=params, 
                 headers=headers, 
-                data=data
+                data=data,
+                proxies=proxy
             )
 
             return {
